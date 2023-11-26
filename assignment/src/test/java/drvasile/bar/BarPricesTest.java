@@ -11,63 +11,63 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 @DisplayName("Bar Test Specification")
 public class BarPricesTest
 {
-    private Bar pub;
+    private BarPrices barPricesInstance;
 
     @BeforeEach
     public void setUp() throws Exception
     {
-        pub = new Bar();
+        barPricesInstance = new BarPrices();
     }
 
     @Test
-    @DisplayName("When we order one beer, then the price is 74 kr.")
-    public void oneBeerTest()
+    @DisplayName("When ordering one beer, the price should be 74.")
+    public void oneBeerPriceTest()
     {
-        int actualPrice = pub.computeCost(Bar.ONE_BEER, false, 1);
+        int actualPrice = barPricesInstance.getDrinkPrice(BarPrices.HANSA_BEER, false, 1);
         assertEquals(74, actualPrice);
     }
 
     @Test
-    @DisplayName("When we order one cider, then the price is 103 kr.")
-    public void testCidersAreCostly() throws Exception
+    @DisplayName("When ordering one Grans cider, the price should be 103.")
+    public void gransCiderPriceTest() throws Exception
     {
-        int actualPrice = pub.computeCost(Bar.ONE_CIDER, false, 1);
+        int actualPrice = barPricesInstance.getDrinkPrice(BarPrices.GRANS_CIDER, false, 1);
         assertEquals(103, actualPrice);
     }
 
     @Test
-    @DisplayName("When we order a proper cider, then the price is 110 kr.")
-    public void testProperCidersAreEvenMoreExpensive() throws Exception
+    @DisplayName("When ordering a Strong Bow cider, the price should be 110.")
+    public void strongBowPriceTest() throws Exception
     {
-        int actualPrice = pub.computeCost(Bar.A_PROPER_CIDER, false, 1);
+        int actualPrice = barPricesInstance.getDrinkPrice(BarPrices.STRONG_BOW_CIDER, false, 1);
         assertEquals(110, actualPrice);
     }
 
     @Test
-    @DisplayName("When we order a gin and tonic, then the price is 115 kr.")
-    public void testACocktail() throws Exception
+    @DisplayName("When ordering a gin and tonic, the price should be 115.")
+    public void ginTonicPriceTest() throws Exception
     {
-        int actualPrice = pub.computeCost(Bar.GT, false, 1);
+        int actualPrice = barPricesInstance.getDrinkPrice(BarPrices.GIN_TONIC, false, 1);
         assertEquals(115, actualPrice);
     }
 
     @Test
-    @DisplayName("When we order a bacardi special, then the price is 127 kr.")
+    @DisplayName("When ordering a bacardi special, the price should be 127.")
     public void testBacardiSpecial() throws Exception
     {
-        int actualPrice = pub.computeCost(Bar.BACARDI_SPECIAL, false, 1);
+        int actualPrice = barPricesInstance.getDrinkPrice(BarPrices.BACARDI_SPECIAL, false, 1);
         assertEquals(127, actualPrice);
     }
 
     @Nested
-    @DisplayName("Given a customer who is a student")
+    @DisplayName("Given a customer who is a student.")
     class Students
     {
         @Test
         @DisplayName("When they order a beer, then they get a discount.")
         public void testStudentsGetADiscountForBeer() throws Exception
         {
-            int actualPrice = pub.computeCost(Bar.ONE_BEER, true, 1);
+            int actualPrice = barPricesInstance.getDrinkPrice(BarPrices.HANSA_BEER, true, 1);
             assertEquals(67, actualPrice);
         }
 
@@ -75,7 +75,7 @@ public class BarPricesTest
         @DisplayName("When they order multiple beers, they also get a discount.")
         public void testStudentsGetDiscountsWhenOrderingMoreThanOneBeer() throws Exception
         {
-            int actualPrice = pub.computeCost(Bar.ONE_BEER, true, 2);
+            int actualPrice = barPricesInstance.getDrinkPrice(BarPrices.HANSA_BEER, true, 2);
             assertEquals(67 * 2, actualPrice);
         }
 
@@ -83,7 +83,7 @@ public class BarPricesTest
         @DisplayName("When they order a cocktail, they do not get a discount.")
         public void testStudentsDoNotGetDiscountsForCocktails() throws Exception
         {
-            int actualPrice = pub.computeCost(Bar.GT, true, 1);
+            int actualPrice = barPricesInstance.getDrinkPrice(BarPrices.GIN_TONIC, true, 1);
             assertEquals(115, actualPrice);
         }
     }
@@ -92,7 +92,7 @@ public class BarPricesTest
     @DisplayName("When they order a drink which is not on the menu, then they are refused.")
     public void testThatADrinkNotInTheSortimentGivesError() throws Exception
     {
-        assertThrows(RuntimeException.class, () -> pub.computeCost("sanfranciscosling", false, 1));
+        assertThrows(RuntimeException.class, () -> barPricesInstance.getDrinkPrice("sanfranciscosling", false, 1));
     }
 
     @Nested
@@ -103,14 +103,14 @@ public class BarPricesTest
         @DisplayName("and the order is for cocktails, then they are refused.")
         public void testCanBuyAtMostTwoDrinksInOneGo() throws Exception
         {
-            assertThrows(RuntimeException.class, () -> pub.computeCost(Bar.BACARDI_SPECIAL, false, 3));
+            assertThrows(RuntimeException.class, () -> barPricesInstance.getDrinkPrice(BarPrices.BACARDI_SPECIAL, false, 3));
         }
 
         @Test
         @DisplayName("and the order is for beers, then they are served.")
         public void testCanOrderMoreThanTwoBeers() throws Exception
         {
-            pub.computeCost(Bar.ONE_BEER, false, 5);
+            barPricesInstance.getDrinkPrice(BarPrices.HANSA_BEER, false, 5);
         }
     }
 }
