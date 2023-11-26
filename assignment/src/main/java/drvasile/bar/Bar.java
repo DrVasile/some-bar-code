@@ -1,6 +1,6 @@
-package nerdschool.bar;
+package drvasile.bar;
 
-public class Pub
+public class Bar
 {
     public static final String ONE_BEER = "hansa";
     public static final String ONE_CIDER = "grans";

@@ -19,6 +19,18 @@ The 4 popular symptoms are:
 * Viscosity
 
 
+## Steps on Refactoring Code
+* Names should be meaningful:
+  * Expressing the objects/entities/purpose;
+  * Full real names;
+  * Abbreviations might cause confusions.
+* Classes/Types or functions/procedures should be kept small.
+* Side effects should be avoided.
+* Comments should be meaningful and express smth that is not deducible by the code.
+* The main goal is human readability!
+
+
+
 ## References
 [1] [Design Principles and
 Design Patterns by R. C. Martin](https://staff.cs.utu.fi/~jounsmed/doos_06/material/DesignPrinciplesAndPatterns.pdf)
